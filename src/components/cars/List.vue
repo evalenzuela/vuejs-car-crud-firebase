@@ -1,5 +1,8 @@
 <template>
   <div>
+    <p>
+      <router-link tag="li" to="/car/create">Create car</router-link>
+    </p>
     <table class="table">
       <thead>
       <tr>
