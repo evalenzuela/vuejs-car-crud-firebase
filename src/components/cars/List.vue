@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <router-link tag="li" to="/car/create">Create car</router-link>
+      <router-link tag="li" to="/car/create" active-class="active"><a>Create car</a></router-link>
     </p>
     <table class="table">
       <thead>
