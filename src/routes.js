@@ -4,9 +4,11 @@
 
 import Home from './components/site/Home.vue';
 import CarsList from './components/cars/List.vue';
+import About from './components/site/About.vue';
 
 
 export const routes = [
   { path: '', component: Home },
-  { path: '/cars', component: CarsList }
+  { path: '/cars', component: CarsList },
+  { path: '/about', component: About }
 ];
