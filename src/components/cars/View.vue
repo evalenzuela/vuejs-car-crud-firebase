@@ -1,29 +1,55 @@
 <template>
   <div>
-    <h1>Create a car</h1>
+    <h1>View car</h1>
     <form>
       <div class="form-group">
-        <label for="maker">Maker</label>
-        Maker
+        <label>Maker: </label>
+        <span>{{ car.maker }}</span>
       </div>
       <div class="form-group">
-        <label for="model">Model</label>
-        Model
+        <label>Model: </label>
+        {{ car.model }}
       </div>
       <div class="form-group">
-        <label for="year">Year</label>
-        2018
+        <label>Year: </label>
+        {{ car.year }}
       </div>
       <div class="form-group">
-        <label for="cost">Cost</label>
-        Cost
+        <label>Cost: </label>
+        {{ car.cost }}
       </div>
       <div class="form-group">
-        <label for="status">Status</label>
-        Status
+        <label>Status: </label>
+        {{ car.status }}
       </div>
 
-      <button type="submit" class="btn btn-primary">Back</button>
+      <button type="button" class="btn btn-primary" @click="goBack">Back</button>
     </form>
   </div>
 </template>
+<script>
+
+  import axios from 'axios';
+
+  export default {
+      data: function() {
+        return {
+            car: null
+        }
+      },
+      methods: {
+        goBack() {
+            this.$router.push('/cars')
+        }
+      },
+      created() {
+         axios.get('/cars/' + this.$route.params.id + '.json')
+           .then(response => {
+               this.car = response.data;
+           })
+           .catch(error => {
+               console.log(error)
+           })
+      }
+  }
+</script>

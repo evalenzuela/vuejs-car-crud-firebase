@@ -12,34 +12,62 @@
         <th scope="col">Year</th>
         <th scope="col">Cost</th>
         <th scope="col">Status</th>
+        <th scope="col"></th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Honda</td>
-        <td>Civic</td>
-        <td>1992</td>
-        <td>USD 2,000</td>
-        <td>Used</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Honda</td>
-        <td>CRD</td>
-        <td>2018</td>
-        <td>USD 27,000</td>
-        <td>New</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Kia</td>
-        <td>Cerato</td>
-        <td>2012</td>
-        <td>USD 18,000</td>
-        <td>Used</td>
+      <tr v-for="car in cars">
+        <th scope="row">{{ car.order }}</th>
+        <td>{{ car.maker }}</td>
+        <td>{{ car.model }}</td>
+        <td>{{ car.year }}</td>
+        <td>USD {{ car.cost }}</td>
+        <td>{{ car.status }}</td>
+        <td><a @click="editCar(car)">Edit</a> | <a @click="viewCar(car)">View</a></td>
       </tr>
       </tbody>
     </table>
   </div>
 </template>
+<script>
+  import axios from 'axios';
+
+  export default {
+
+    data: function() {
+      return {
+          cars: []
+      }
+    },
+    methods: {
+      editCar: function(car) {
+        this.$router.push('/car/edit/' + car.id);
+      },
+      viewCar: function(car) {
+        this.$router.push('/car/view/' + car.id);
+      }
+    },
+    created() {
+      axios.get('/cars.json')
+        .then(response => {
+
+            const data = response.data;
+
+            let i = 1;
+            for(let key in data) {
+
+                const car = data[key];
+                car.order = i;
+                car.id = key;
+
+                this.cars.push(car);
+
+                i++;
+            }
+
+        }).catch(error => {
+            console.log(error);
+      })
+    }
+  }
+</script>
