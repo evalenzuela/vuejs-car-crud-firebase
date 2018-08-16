@@ -16,7 +16,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="car in cars">
+      <tr v-for="car in this.$store.state.cars">
         <th scope="row">{{ car.order }}</th>
         <td>{{ car.maker }}</td>
         <td>{{ car.model }}</td>
@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-  import axios from 'axios';
+  import axiosContent from '../../config/content';
 
   export default {
 
@@ -41,33 +41,16 @@
     },
     methods: {
       editCar: function(car) {
-        this.$router.push('/car/edit/' + car.id);
+        this.$router.push('/car/edit/' + car.id, {token: this.$store.state.token });
       },
       viewCar: function(car) {
         this.$router.push('/car/view/' + car.id);
       }
     },
     created() {
-      axios.get('/cars.json')
-        .then(response => {
 
-            const data = response.data;
+      this.$store.dispatch('fetchCars');
 
-            let i = 1;
-            for(let key in data) {
-
-                const car = data[key];
-                car.order = i;
-                car.id = key;
-
-                this.cars.push(car);
-
-                i++;
-            }
-
-        }).catch(error => {
-            console.log(error);
-      })
     }
   }
 </script>

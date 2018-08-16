@@ -29,12 +29,18 @@
 </template>
 <script>
 
-  import axios from 'axios';
+  import axiosContent from '../../config/content';
 
   export default {
       data: function() {
         return {
-            car: null
+          car: {
+            maker: null,
+            model: null,
+            year: null,
+            status: null,
+            cost: null
+          }
         }
       },
       methods: {
@@ -43,7 +49,7 @@
         }
       },
       created() {
-         axios.get('/cars/' + this.$route.params.id + '.json')
+         axiosContent.get('/cars/' + this.$route.params.id + '.json?auth='+this.$store.state.tokenId)
            .then(response => {
                this.car = response.data;
            })

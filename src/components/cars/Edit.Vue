@@ -38,13 +38,19 @@
   </div>
 </template>
 <script>
-  import axios from 'axios';
+  import axiosContent from '../../config/content';
 
   export default {
 
     data: function() {
       return {
-        car: null
+        car: {
+            maker: null,
+            model: null,
+            year: null,
+            status: null,
+            cost: null
+        }
       }
     },
     methods: {
@@ -52,7 +58,7 @@
         this.$router.push('/cars')
       },
       onSubmit() {
-        axios.put('/cars/' + this.$route.params.id + '.json', this.car)
+        axiosContent.put('/cars/' + this.$route.params.id + '.json?auth='+this.$store.state.tokenId, this.car)
           .then(response => {
               console.log(response);
           })
@@ -62,7 +68,8 @@
       }
     },
     created() {
-      axios.get('/cars/' + this.$route.params.id + '.json')
+      console.log(this.$store.state.tokenId)
+      axiosContent.get('/cars/' + this.$route.params.id + '.json?auth='+this.$store.state.tokenId)
         .then(response => {
           console.log(response.data);
           const data = response.data;

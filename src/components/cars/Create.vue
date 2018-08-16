@@ -82,7 +82,7 @@
 </template>
 <script>
 
-  import axios from 'axios';
+  import axiosContent from '../../config/content';
   import { required, email, minValue, minLength, numeric } from 'vuelidate/lib/validators';
 
   export default {
@@ -134,7 +134,7 @@
 
           console.log(carData);
 
-          axios.post('/cars.json', carData)
+            axiosContent.post('/cars.json?auth='+this.$store.state.tokenId, carData)
             .then( response => console.log(response))
             .catch( error => console.log(error))
         }
